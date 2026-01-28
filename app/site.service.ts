@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Site } from './site';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://lumina-server-test-production.up.railway.app';
 
 export const siteService = {
   async getByDomain(domain: string): Promise<Site> {
