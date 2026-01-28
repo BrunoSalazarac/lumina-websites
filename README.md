@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏠 Inmobiliarias Frontend - Next.js
 
-## Getting Started
+Frontend multi-dominio con SSR para sitios inmobiliarios.
 
-First, run the development server:
+## 🎯 ¿Qué hace este proyecto?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- ✅ Detecta el dominio automáticamente (`uno.tudominio.com`, `dos.tudominio.com`, etc.)
+- ✅ Carga la configuración desde el backend según el dominio
+- ✅ Renderiza el template correspondiente (A, B o C)
+- ✅ SEO perfecto con meta tags dinámicos
+- ✅ Secciones activables/desactivables por configuración
+
+## 🚀 Deploy en Vercel
+
+### Paso 1: Conectar repositorio
+1. Ve a [vercel.com](https://vercel.com)
+2. Click en "Add New" → "Project"
+3. Importa tu repositorio de GitHub
+4. Vercel detecta automáticamente que es Next.js
+
+### Paso 2: Configurar variables de entorno
+En Vercel, ve a "Settings" → "Environment Variables":
+
+```
+NEXT_PUBLIC_API_URL = https://tu-backend.railway.app
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Paso 3: Deploy
+Click en "Deploy" y espera 2-3 minutos.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Paso 4: Configurar dominios personalizados
+1. Ve a "Settings" → "Domains"
+2. Agrega tus dominios:
+   - `uno.tudominio.com`
+   - `dos.tudominio.com`
+   - `tres.tudominio.com`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Vercel te dará registros DNS para configurar:
+   ```
+   Tipo: CNAME
+   Nombre: uno
+   Valor: cname.vercel-dns.com
+   ```
 
-## Learn More
+4. En tu proveedor de DNS (GoDaddy, Cloudflare, etc.):
+   - Agrega los registros CNAME para cada subdominio
+   - Espera 5-30 minutos para propagación
 
-To learn more about Next.js, take a look at the following resources:
+### Paso 5: Verificar
+Vercel verificará automáticamente los dominios y emitirá certificados SSL.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧪 Desarrollo Local
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Instalar dependencias
+npm install
 
-## Deploy on Vercel
+# Copiar .env.example
+cp .env.local.example .env.local
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Editar .env.local con tu URL del backend
+# NEXT_PUBLIC_API_URL=http://localhost:3001
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Iniciar en modo desarrollo
+npm run dev
+```
+
+Para probar diferentes dominios localmente:
+```bash
+# Editar /etc/hosts (Mac/Linux) o C:\Windows\System32\drivers\etc\hosts (Windows)
+127.0.0.1 uno.localhost
+127.0.0.1 dos.localhost
+127.0.0.1 tres.localhost
+```
+
+Luego accede a: `http://uno.localhost:3000`
+
+## 📁 Estructura del Proyecto
+
+```
+├── pages/
+│   ├── index.tsx              # Página principal (SSR)
+│   ├── _app.tsx               # Configuración global
+│   └── _document.tsx          # HTML base
+├── templates/
+│   ├── TemplateA.tsx          # Template moderno
+│   ├── TemplateB.tsx          # Template elegante
+│   └── TemplateC.tsx          # Template fresco
+├── components/
+│   └── sections/
+│       ├── Hero.tsx           # Sección hero
+│       ├── Services.tsx       # Servicios
+│       ├── Properties.tsx     # Propiedades
+│       └── Contact.tsx        # Contacto
+├── services/
+│   └── siteService.ts         # Llamadas a la API
+├── types/
+│   └── site.ts                # TypeScript types
+└── styles/
+    └── globals.css            # Estilos globales
+```
+
+## 🎨 Templates Disponibles
+
+### Template A - Modern
+- Diseño limpio y minimalista
+- Colores: Azul (#2563eb)
+- Ideal para: Inmobiliarias premium
+
+### Template B - Elegant
+- Diseño corporativo oscuro
+- Colores: Rojo (#dc2626)
+- Ideal para: Inversión inmobiliaria
+
+### Template C - Fresh
+- Diseño juvenil y fresco
+- Colores: Verde (#059669)
+- Ideal para: Primera vivienda
+
+## 🔧 Cómo funciona el multi-dominio
+
+1. **Usuario visita**: `uno.tudominio.com`
+2. **Next.js SSR**: Detecta el dominio en `getServerSideProps`
+3. **API Call**: Consulta configuración al backend
+4. **Render**: Carga el template correcto con meta tags
+5. **SEO**: Google indexa correctamente cada sitio
+
+## 🌐 Testing
+
+Puedes probar en local modificando el archivo `/etc/hosts`:
+```
+127.0.0.1 uno.localhost
+127.0.0.1 dos.localhost
+127.0.0.1 tres.localhost
+```
+
+Luego accede a `http://uno.localhost:3000` en tu navegador.
+
+## 📊 Secciones Configurables
+
+Cada template puede mostrar/ocultar:
+- ✅ Hero (banner principal)
+- ✅ Services (servicios)
+- ✅ Properties (propiedades destacadas)
+- ✅ Testimonials (testimonios)
+- ✅ About (sobre nosotros)
+- ✅ Contact (formulario de contacto)
+
+Configuración se hace desde el backend en la tabla `sites`.

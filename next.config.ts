@@ -1,7 +1,26 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  reactStrictMode: true,
+  
+  // Configuración para multi-dominio
+  async rewrites() {
+    return {
+      beforeFiles: [],
+      afterFiles: [],
+      fallback: []
+    };
+  },
+
+  // Variables de entorno públicas
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
+  },
+
+  // Optimizaciones
+  images: {
+    domains: ['localhost'],
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
